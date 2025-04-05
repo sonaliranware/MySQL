@@ -1,0 +1,1198 @@
+SQL revision
+===============
+DBMS=> Database Management System
+
+Data and information
+
+Data- raw facts that are recorded/stored
+information - processed data
+
+Female - 20rs  Male-10rs   kids -5rs
+
+Total population of city-100000
+
+After days of survey
+M - 40000  =>400000
+F- 40000   =>800000
+Kids- 20000=>100000
+
+Data: total population
+process:survey
+information: 40000M,40000F,20000Kids - output
+
+Database: collection of similar or related records
+
+DBMS: the system which allow us to perform CRUD operations
+on data
+
+Whatare the different slq commands(types of commands)
+DDL---create,drop,truncate,rename,alter
+DML--insert,update and delete
+DCL--grant ,revoke
+TCL---commit,rollback and savepoint
+DQL---select
+
+-create database
+-insert records
+- update previous records
+-delete records
+-display records
+
+RDBMS - relational DBMS
+
+Table: student
+
+id   name   address    per
+---------------------------
+
+Database commands - 
+
+1)create database => create database databasename;
+eg: create database fsd;
+
+2)to show database: 
+=> show databases;
+
+3)to delete the database 
+=> drop database databasename;
+
+eg:  drop database fsd;
+
+4)to use the database:
+=>use databasename;
+
+Create table query:
+==================
+create table tablename(col1 datatype(size) constraint,
+						col2 datatype(size) constraint,
+						.
+						.
+						colN datatype(size) constraint);
+						
+eg: create table student(id int, name varchar(50),
+    per float);
+	
+To see table structure:
+=========================
+=>desc tablename;
+ or 
+ =>describe tablename;
+ 
+To see list of tables:
+=======================
+=>show tables;
+
+To rename the table
+======================
+student ==> student_info
+
+syntax:
+	rename table oldname to newname;
+	
+To delete the table
+====================
+=>drop table tablename;
+
+Column manipulations-
+======================
+
+Add column to the existing table-
+--------------------------------
+=> alter table tablename
+	add colname1 datatype(size) constraint,
+	.
+	.
+	.add colnameN datatype(size) constraint;
+
+eg: alter table student
+    -> add city varchar(50), add mob bigint;
+	
+Add column to the existing table after specific column-
+-------------------------------------------------------
+=>alter table tablename
+add colname1 datatype(size) constraint after columnname;
+
+eg: alter table student
+    -> add surname varchar(50) after name;
+	
+Add column to the existing table at first position-
+--------------------------------------------------
+=>alter table tablename
+  add colname datatype(size) constraint first;
+  
+ eg: alter table student
+    -> add roll_no int first;
+	
+Rename a column
+=================
+=> alter table tablename
+	change oldcolname newcolname datatype(size) constraint;
+	
+eg: alter table student
+    -> change city stud_city varchar(50);
+
+change the datatype of column
+=============================
+=> alter table tablename
+	modify column colname newdatatype(newsize) constraint;
+
+eg: alter table student
+    -> modify column per int;
+
+Delete a column-
+===============
+=> alter table tablename
+   drop colname1, drop colname2,...;
+
+eg:  alter table student
+    -> drop surname,drop stud_city,drop mob;
+	
+DDL - Data definition language   - table structure
+DML - Data manipulation language - related data
+
+operations involved in DMl-
+-inserting record
+- updating record
+- deleting record
+
+insert record
+===============
+single record insertion
+------------------------
+=> insert into tablename(col1,col2,col3,..)
+	values(value1,value2,value3,....);
+
+eg: insert into student(id,name,per)
+    -> values(1,'ABC',56);
+	
+multiple records insertion
+------------------------------
+=> insert into tablename(col1,col2,col3,..)
+	values(value1,value2,value3,....),
+	(value1,value2,value3,....),....;
+
+eg:  insert into student(id,name,per)
+    -> values(2,'Mac',78),(3,'Shree',89);
+
+
+Update record
+==============
+1)record is searched from the table based on condition
+2)updation is performed
+
+syntax: 
+UPDATE tablename SET col1=value1,col2=value2,...
+		where column=value;
+		
+column that is used in where clause is the column
+containing unique values
+
+eg:  UPDATE student SET per=77 where id=2;
+
+if there is no where clause to search, it will update 
+all records from the table.
+
+eg: UPDATE student SET per=70;
+
+Delete record
+===============
+syntax: DELETE from tablename where colname=value;
+
+column that is used in where clause is the column
+containing unique values
+
+eg: DELETE from student where id=2;
+
+if there is no where clause to search records, it will
+delete all records from the table
+
+eg: DELETE from student;
+
+Constraints
+=============
+-> limitations
+
+constraints are the conditions that we imposed on columns,
+so that data that is entering into the column must 
+satisfy the condition otherwise there will be error.
+
+Types of constraints:
+=====================
+1)Not NULL
+2)UNIQUE
+3)PRIMARY KEY
+4)AUTO_INCREMENT
+5)FOREIGN KEY
+6)DEFAULT
+
+1)NOT NULL
+===========
+null => nothing
+
+At table creation
+-----------------
+create table tablename(col1 datatype(size) NOT NULL,
+						col2 datatype(size) constraint,
+						.
+						.
+						colN datatype(size) constraint);
+						
+eg: create table student(id int NOT NULL,
+    -> name varchar(50),per float);
+
+Remove NOT NULL constraint
+---------------------------
+syntax:
+		alter table tablename
+		modify column columnname datatype(size) NULL;
+eg: 
+alter table student
+    -> modify id int NULL;
+	
+Adding NOT NULL after table creation
+-------------------------------------
+syntax:
+		alter table tablename
+		modify column columnname datatype(size) NOT NULL;						
+
+eg: alter table student
+    -> modify id int NOT NULL;
+	
+2)UNIQUE constraint
+=================
+no duplicate values are allowed
+At table creation
+-----------------
+create table tablename(col1 datatype(size) UNIQUE,
+						col2 datatype(size) constraint,
+						.
+						.
+						colN datatype(size) constraint);
+eg: create table student(id int UNIQUE,
+    -> name varchar(50),per float);
+
+To remove UNIQUE constraint
+-----------------------------
+syntax:
+	alter table tablename
+	drop index indexname;
+	
+indexname=> column name
+
+=>show create table tablename;
+indexname=> id
+
+eg: alter table student
+	drop index id;
+	
+to add UNIQUE constraint after table creation
+---------------------------------------------
+=> alter table tablename
+	add UNIQUE(columnname);
+
+eg: alter table student
+	add UNIQUE(id);
+	
+3)PRIMARY KEY
+==============
+primary key=> unique and not null
+
+There can be only one primary key for that table
+
+At table creation
+-----------------
+create table tablename(col1 datatype(size) PRIMARY KEY,
+						col2 datatype(size) constraint,
+						.
+						.
+						colN datatype(size) constraint);
+
+eg: create table student(id int primary key,
+    -> name varchar(50), per float);
+
+To remove PRIMARY KEY constraint
+--------------------------------
+syntax:
+alter table tablename
+drop primary key;
+
+1st step : alter table student
+    -> drop primary key;
+	
+2nd step : alter table student
+    -> modify id int NULL;
+	
+To add primary key after table creation
+--------------------------------------
+syntax:
+alter table tablename
+add primary key(columnname);
+
+eg: alter table student
+    -> add primary key(id);
+	
+4)AUTO_INCREMENT
+===================
+It is used to automatically increment integer value of that
+column
+
+it is always used for the column which is defined as a key
+
+At table creation
+-----------------
+create table tablename(col1 datatype(size) PRIMARY KEY
+							AUTO_INCREMENT,
+						col2 datatype(size) constraint,
+						.
+						.
+						colN datatype(size) constraint);
+eg: create table student(id int primary key
+    -> auto_increment,name varchar(50),per float);
+	
+To remove auto_increment
+-------------------------
+syntax: 
+	alter table tablename
+	modify colname datatype;
+
+eg:  alter table student
+    -> modify id int;
+	
+to add auto_increment after table cration
+-------------------------------------------
+syntax: 
+	alter table tablename
+	modify colname datatype auto_increment;
+
+eg:  alter table student
+    -> modify id int auto_increment;
+	
+5)DEFAULT - default value
+==========================
+At table creation
+-----------------
+create table tablename(col1 datatype(size) default value,
+						col2 datatype(size) constraint,
+						.
+						.
+						colN datatype(size) constraint);
+
+eg: create table student(id int primary key
+    -> auto_increment,name varchar(50) DEFAULT 'No Name',
+    -> per float);
+	
+to remove Default value
+=========================
+syntax:
+	alter table tablename
+	modify columnname datatype(size) DEFAULT NULL;
+
+eg:  alter table student
+    -> modify name varchar(50) DEFAULT NULL;
+	
+to add DEFAULT value after table creation
+==========================================
+syntax:
+syntax:
+	alter table tablename
+	modify columnname datatype(size) DEFAULT Value;
+
+eg: alter table student
+    -> modify name varchar(50) DEFAULT 'No Name';
+
+6)Foreign key constraint
+===========================
+table: student
+
+rid  sid   name   per   mob
+--------------------------------
+1     1    Harry  89  8989898989
+2     2    Max    90  9090909090
+3     2    Max    90  9191919191
+4     3    Shree  98  8080808080
+5     3    Shree  98  7070707070
+6     3    Shree  98  7878787878
+
+Due to more than one mobile number for a student,
+there is duplication of data in other fields of the table
+
+this duplication of data is called as redundancy
+
+that redundancy should be avoided
+
+solution to reduce the redundancy, we need to split the
+tables on the basis of column which is causing
+redundancy
+
+student (parent)                 mobile(child)
+-------------------       -------------------------
+id  name   per             id  sid    mob  
+1  Harry   89               1    1    8989898989
+2  Max     90               2    2    9090909090
+3  Shree   98               3    2    9191919191
+							4    3    8080808080
+							5    3    7070707070
+							6    3    7878787878
+
+id from student table
+sid from mobile table  --> foreign key
+
+when we are splitting one table into two or more tables,
+then in order to establish relation between two tables
+or to retrieve data in future there has to be one common
+column between two tables.
+
+Case 1:
+======
+deletion and updation activity form parent table which is
+referred in the child table must be restricted and 
+to achieve this we need to apply foreign key constrant
+to the column in the child table.
+
+At table creation
+==================
+syntax for child table - (mobile)
+
+create table tablename(col1 datatype(size) constraint,
+						col2 datatype(size) constraint,
+						.
+						.
+					colN datatype(size) constraint,
+					foreign key(colname)
+					references parent_tablename(column));
+
+eg: foreign key(sid)
+	references student(id)
+	
+=> create table mobile(id int primary key
+    -> auto_increment,sid int,mob bigint,
+    -> foreign key(sid) references student(id));
+
+To remove foreign key constraint
+=================================
+step1: drop the constraint
+syntax: 
+	alter table child_tablename
+	drop constraint constraintname;
+	
+in order to get constraint name, follow the command-
+=> show create table tablename;
+
+eg: alter table student
+	drop constraint mobile_ibfk_1;
+
+step2:drop the index
+=> alter table tablename
+	drop index indexname;
+	
+	eg: alter table mobile
+		drop index sid;
+
+To add foreign key constraint after table creation
+==================================================
+case 2: 
+
+if deletion of the parent table row/column which is referred 
+in the child table is allowed, then system  automatically 
+must delete all those records linked from the child table
+
+if updation of the parent table row/column which is referred 
+in the child table is allowed, then system automatically 
+must update all those records linked from the child table
+
+in order to achieve above case, we need to add
+'on delete cascade on update cascade' 
+
+syntax: for child table
+-------
+alter table tablename
+add foreign key(colname)
+references parenttablename(column)
+on delete cascade on update cascade;
+
+eg:  alter table mobile
+    -> add foreign key(sid) references student(id)
+    -> on delete cascade on update cascade;
+	
+DQL - Data query language
+---------------------------
+1)retrieve data
+2)Filter data on the basic of condition
+3)ordering data(ascending/descending)
+
+select query
+============
+all fields -
+
+select * from tablename;
+
+particular fields-
+
+select col1,col2,... from tablename;
+
+Aliasing to colname-
+---------------------
+select colname1 as newcol1, colname2 as newcol2,...
+	from tablename;
+	
+select name,dept as Department from employee;
+
+operators-
+==========
+1)arithmetic operators- +,-,*,/,%
+
+=>select name, salary, salary+1500 as increment from emplo
+yee;
+=> select name,salary, salary%15 as modulus from employee;
+
+2)comparison operator- <,>,<=,>=,!= or <>,=
+
+condition=> colname operator value
+where        sal       =     45000;
+
+3)logical operator- and ,or
+
+and => if both the conditions are True, result will be
+	False
+	
+or => if any one of the condition is True, then result will
+	be True
+
+find the details of employee who are working in IT dept
+=> select * from employee where dept='IT';
+Not working in IT dept
+=> select * from employee where dept!='IT';
+=> select * from employee where dept<>'IT';
+
+Find employee details whose salary is between 40000
+and 60000
+=> select * from employee where salary>=40000
+						and salary<=60000;
+						
+Range oepratorL:  between and
+
+=>select * from employee where salary between 40000 and
+										60000;
+										
+find list of employees who are working in IT,CS or
+support.
+
+=>select * from employee where dept='IT' or dept='Support'
+ or dept='CS';
+ 
+List operator : IN & NOT IN
+
+=>select * from tablename 
+		where colname IN (value1,value2,....,valueN);
+
+
+select * from employee where dept IN ('IT','CS','Support');
+
+=>select * from employee where 
+		dept NOT IN ('IT','CS','Support');
+		
+Distinct - 
+==========
+it removes duplications
+
+eg: select distinct dept from employee;
+
+order by clause
+===============
+sort the records - ascending/descending order
+
+syntax:
+select * from tablename order by column; - ascending
+select * from tablename order by column asc; - ascending
+select * from tablename order by column desc; - descending
+
+limit clause
+--------------
+limit clause limits the number of records to be displayed
+
+syntax:
+select * from tablename limit offset,n;
+
+offset=>after which records
+n=> no. of records to be displayed
+
+
+=>select * from employee limit 4,3;
+
+IS NULL or IS NOT NULL
+=======================
+syntax:
+
+select * from tablename where column IS NULL;
+select * from tablename where column IS NOT NULL;
+
+eg: select * from employee where salary IS NOT NULL;
+
+LIKE operator
+===============
+string value
+
+wild character- %
+_ - represents any single character 
+
+syntax: 
+select * from tablename where column LIKE 'pattern';
+
+pattern- 'a%' - which starts with a
+pattern- '%a' - which ends with a
+pattern- '%a%' - which contains a
+
+pattern - '_a%' - second character is a
+pattern - '%a_' - second last character is a
+pattern - '%a__' - third last character is a
+
+eg:  select * from employee where name LIKE '%ee%';
+
+ select * from employee where name LIKE '%_a';
+ 
+ Built-in functions
+ ====================
+ string functions - 
+ 1)concat(exp1,exp2,....) => join two or more strings
+ 
+ =>select name,salary,concat(name,'-',salary) 
+ as result from employee;
+ 
+ 2)lower()- lowercase
+ => select name, lower(name) as result from employee;
+ 
+ 3)upper() - uppercase
+ select name, upper(name) as result from employee;
+ 
+ 4)replace(string,'char to be replaced','to be replaced with') - 
+ 
+=>select dept,replace(dept,'IT','info-tech') 
+		as result from employee;
+=>select replace('good evening','evening','morning')
+ as result;
+ 
+ 5)substr() - extract partial part from main string
+ 
+	substr(m,n)
+	m -> starting position-
+	n -> no. of characters to be extracted
+	
+	select substr('itvedant',3,6) as result;
+	
+ 6)length() - to count the no. of character from string
+ 
+=>select name,length(name) as result from employee;
+------------------------------------------------
+ math functions
+ ================
+ 1)abs() - absolute value
+ 
+ abs(-4) => 4
+ abs(4) => 4
+ =>select abs(-5) as result;
+ 
+ 2)ceil() => maximum value in that range
+ ceilt(16.4)- 16 to 17 => 17
+ ceilt(16.7)- 16 to 17 => 17
+ ceilt(16.5)- 16 to 17 => 17
+ 
+ 3)floor() => minimum value in that range
+ floor(16.4) => 16 to 17 =>16
+ floor(16.7) => 16 to 17 =>16
+ floor(16.5) => 16 to 17 =>16
+ 
+ 4)round() => based on decimal number
+ round(16.4)=>16 to 17 => 16 lowest
+ round(16.7)=>16 to 17 => 17 highest
+ round(16.5)=>16 to 17 => 17 highest
+ ------------------------
+ MariaDB [office]> select ceil(18.9) as result;
++--------+
+| result |
++--------+
+|     19 |
++--------+
+1 row in set (0.000 sec)
+
+MariaDB [office]> select floor(18.9) as result;
++--------+
+| result |
++--------+
+|     18 |
++--------+
+1 row in set (0.000 sec)
+
+MariaDB [office]> select round(18.9) as result;
++--------+
+| result |
++--------+
+|     19 |
++--------+
+1 row in set (0.000 sec)
+--------------------------------------
+
+5)mod(m,n) => performs division but returns remainder
+m- dividend
+n- divisor
+
+mod(11,4) => 3
+select mod(11,4) as result;
+
+6)pow(n,p)=> n raised to p
+
+pow(4,3)=> 4 raised to 3
+=>select pow(4,3) as result;
+
+7)sqrt(n)=> square root
+
+=> select sqrt(64) as result;
+---------------------------------------------
+date functions
+===============
+'yyyy-mm-dd'
+ '2024-05-09'
+1)curdate(): gives current system date
+2)curtime(): gives current system time
+3)now(),sysdate(): date and time
+
+=>select curdate() as system_date;
+=> insert into emp(name,sal,doj)
+	values('Hari',55000,curdate()/now());
+	
+4)year(): extract year from the date
+
+=> select year('2023-09-09') as result;
+=>select year(now()) as result;
+
+5)month(): extract month from the date
+6)day(): extract day from the date
+
+7)hour(): extract hours from the time
+8)minute(): extract minutes from the time
+9)second(): extract seconds from the time
+
+10)datediff(highest date,lowest date)=> 
+	gives difference in no. of days
+	
+=>select round(datediff(now(),'2023-05-09')/365) as exp_years;
+
+11)date_format(date,format)-	
+
+%d - 01 to 31
+%D - with suffix -> 1st , 3rd
+%m - 01 to 12
+%M - month in words (april)
+%y - 2 digits year (2024=>24)
+%Y - 4 digits year(2023)
+
+select date_format(now(),'%D, %M %Y') as result;
+select date_format(now(),'%D, %m %Y') as result;
+select date_format(now(),'%d/%m/%Y') as result;
+	
+Aggregate functions
+=====================
+sum(), avg(), min(),max(),count()
+
+count() function never counts null values
+
+select sum(salary) from employee;
+select count(salary) from employee;
+
+-------------------------------------
+Group by clause
+===============
+
+IT - IT,IT,IT,IT,IT,IT
+HR - HR,HR,HR,HR,HR,HR,HR
+
+Find departmentwise employee count.
+
+=>select dept,count(dept) as dept_count from employee grou
+p by dept;
+
+find departments whose employee count is less than 3
+=>select dept,count(dept) as dept_count from employee 
+group by dept where count(dept)<3;  ==> Error
+
+=>select dept,count(dept) as dept_count from employee 
+group by dept having count(dept)<3;
+
+Subquery
+=========
+query inside query
+
+syntax: outer query(inner query)
+
+step1: inner query will execute first and result obtained
+	from inner query will be given to outer query as input.
+	
+step2: by using input given by inner query, your outer query
+	will execute
+	
+=> select * from employee;  => 19 records
+=> select * from employee whre id=5;  => 1 record
+
+type of subqueries:
+1)single row subquery - 
+	the subquery in which inner query returns only single
+	row in the result is called as single row subqery
+	
+2)multiple row subquery - 
+	the subquery in which inner query returns multiple rows
+	in the result is called as multiple row subquery.
+	
+find the employee taking maximum salary.
+=>select * from employee where salary =(maximum value);
+=>select * from employee 
+	where salary =(select max(salary) from employee);
+	
+find the employee having salary greater than avg salary
+of all employees
+
+=> select * from employee where salary>(average salary);
+
+find departmentwise avg salary
+=>select dept,avg(salary) from employee group by dept;
+
+find the employee whose salary is equal to 
+departmentwise avg salary
+
+=>select * from employee where salary = 
+(select avg(salary) from employee group by dept;)
+
+=>where 45000=(46000,56000,....) => error
+=>where 45000 IN (46000,56000,....) => error
+
+find details of employee who is having nth highest salary
+==========================================================
+distinct,limit,order by, subquery
+
+Need of join
+==============
+to fetch data from two or more table
+
+join
+=====
+join => cartesian product + condition
+
+syntax: 
+select columnlist from table1 join name table2 on condition;
+----------------------------------------------     ---------
+				cartesian product              +  condition
+
+Types of joins
+--------------
+1)cross join
+2)inner join
+3)left join
+4)right join
+5)self join
+
+cross join - gives cartesian product
+	this join is without condition
+	
+syntax: 
+select columnlist from table1 cross join table2;
+
+inner join
+============
+select * from table1 inner join table2 on condition;
+
+inner join gives only those records or rows from both tables
+which satisfy the condition
+
+display name of employee along with his department name
+and location of department.
+
+two tables should have one common column
+
+id from emp = eid from dept
+
+=> select * from emp e inner join dept d
+	on e.id=d.eid;
+	
+=>select e.name,d.dept,d.loc from emp e inner join dept d
+on e.id=d.eid;
+
+left join
+==========
+select * from table1 left join table2 on condition;
+
+left join gives row from both tables which satisfy the
+condition and also gives rows from left of the table
+which didn't satisfy the condition.
+
+right join
+===========
+select * from table1 right join table2 on condition;
+
+right join gives rows from both the tables which satisfy
+the condition and also rows from right of the table
+which didn't satisfy the condition.
+
+Self join
+===========
+table joined with itself
+
++------+------+------+
+| sid  | cid  | year |
++------+------+------+
+| s1   | c1   | 2009 |
+| s2   | c2   | 2015 |
+| s1   | c2   | 2015 |
++------+------+------+	
+	
+which student is enrolled for more than one course
+=>
+
+tablename : cs1 , cs2
+sid is same       and   cid is different
+cs1.sid=cs2.sid   and cs1.cid <> cs2.cid
+
+=> select distinct cs1.sid from course cs1 inner join cours
+e cs2 on (cs1.sid=cs2.sid and cs1.cid <> cs2.cid);
+
+Three table join
+=================
+users
++----+-------+------------+--------+
+| id | name  | mobile     | pin    |
++----+-------+------------+--------+
+|  1 | Harry | 9898989898 | 412312 |
+|  2 | Mac   | 7878787878 | 410201 |
+|  3 | Rox   | 8181818181 | 400200 |
++----+-------+------------+--------+
+products
++----+-----------------+-------+
+| id | name            | price |
++----+-----------------+-------+
+|  1 | Mobile          | 25000 |
+|  2 | Washing machine | 15000 |
+|  3 | TCL smart TV    | 18000 |
+|  4 | laptop-lenovo   | 55000 |
+|  5 | Smart watch     |  5000 |
++----+-----------------+-------+
+
+cart table-
++----+------+------+
+| id | uid  | pid  |
++----+------+------+
+|  1 |    1 |    3 |
+|  2 |    1 |    5 |
+|  3 |    3 |    4 |
++----+------+------+
+
+
+ select u.name,p.name,p.price,u.pin from cart c
+    -> inner join users u on (c.uid=u.id)
+    -> inner join products p on (c.pid=p.id);
+	
+Django framework
+==================
+Django installation consist of:
+
+1)python installation
+2)virtual environment installation
+3)django installation
+
+virtual environment
+====================
+we are able to access python  in different cmd prompts
+as python is there in entire window environment(global).
+
+for eg: 
+you are working on a project which requires 2.7 version and
+it has certain configurations.
+
+now you got new project which requires 3.7 version of python,
+and if you install python 3.7 in entire window environment
+(globally), then it may disturb the working of your previous
+project which is there in python 2.7.
+
+so, in order to avoid this
+create a virtual environment for new project and have all the
+dependancies in that environment only.
+so that no other python project outside that environment
+will hamper this project and vice-versa.
+
+room - env1  |         room env2
+             |
+project1     |          project 2
+             |
+			 |
+
+creating virtual environment
+============================
+
+step1: install module - virtualenv
+=> pip install virtualenv
+
+step2: create a folder that will be working project folder 
+	for django application
+	
+cd\
+cd my_django14
+
+step3: create virtual environment 
+
+virtualenv env_name
+eg: virtualenv env
+
+step4: activate virtual environment
+
+env\scripts\activate
+
+deactivate => env\scripts\deactivate
+
+step5: create a folder in my_django14 folder in which 
+	we will be doing installation of django
+	
+	folder name - project
+	
+step6: move into that project folder to install django
+
+	cd project
+	
+	=> pip install django
+	
+above command by default install latest version of django
+
+if you need to install previous version of django then
+command is-
+
+pip install django ~=version number
+
+command to see the django version in virtualenv
+
+=> django-admin --version
+
+step7: create django project or web application
+
+=> django-admin startproject project_name
+eg: django-admin startproject ecomm
+
+
+ 
+command to run django project
+=> python manage.py runserver
+
+cd project
+cd ecomm
+
+cd project\ecomm
+
+difference between project and app
+==================================
+web application - estore/ecomm website -> project
+
+functionalities 
+login      -app
+register   -app
+cart       -app
+product    -app
+
+django-admin startproject project_name
+eg: django-admin startproject ecomm
+
+command to create app=>
+
+=>django-admin startapp app_name
+or
+=>python manage.py startapp app_name
+
+eg: 
+django-admin startapp ecomm_app
+
+
+project structure
+-------------------
+ecomm  -> main django project folder
+ - ecomm    -> project directory
+ - ecomm_app  -> app directory
+ - manage.py
+ 
+ Django has MVT architecture
+ ============================
+ M: Model
+ V: View
+ T: Templates
+ 
+ Model
+ =====
+ Database contains tables
+ 
+ Model is a representative of a database table in the
+ django framework.
+ 
+ Each table in the database has a model in django
+ 
+ No. of tables in   = no. of models in django
+ database                framework
+ 
+ORM feature
+ 
+Templates
+=========
+Templates are HTML files
+=>user interface
+=> no bussiness logic
+
+Views
+=====
+=> functionalities
+=> python files => views.py
+
+Model<-------->View<---------->Templates
+
+eg: user fills form 
+=> you store that data into database table
+
+			Data flow------>
+Template ---------->views---------> Model
+
+eg: retrieve data from table and display it to user
+  
+            <-------Data retrieval
+Template<----------views<------------Model
+
+URL mapping
+===========
+
+client always send request to the server and server
+always in return gives response to the client
+
+client request => url in address bar of browser
+
+1)manual type url    /home
+2)anchor tag give url in address bar
+3)while sending form in action=" " attribute
+
+<form action="/___" method="GET/POST">
+
+submit
+<form>
+
+step1:
+------
+	browser       url   /about
+	user ---------request-------->Django server
+	
+step2: 
+------
+
+	django -------map url-------->urls.py
+	
+	when django server receive request,
+	it search for the url in the urls.py file,
+	indirectly django server is mapping the
+	comming url with the existing url,
+	
+urls.py
+--------
+list of urls
+/contact -> link contact fun
+/about   -> about fun
+
+step3:to every url , ther eis view function linked which gets
+invoked/called when that url is mapped
+
