@@ -1,0 +1,370 @@
+int---numeric values --age=10,id=100,salary=10210
+char/varchar---display the character e.g name, address, degi
+float/double---display decimal values---salary--2000.50 ,mark==45.44
+date---display date "yyyy--mm--dd" e.g=="2022-09-27"
+datetime---"yyyy--mm--dd  hh--mm--ss" e.g="2022-09-21 09:08:05"
+
+related to database**********
+1) create databse database_name
+2) use database_name
+3) drop database database_name
+4) show databases;
+
+
+Related to table**************
+create table student(id int,name varchar(20),b_date date,marks float,dtime datetime);
+
+syntax for inserting values into table---
+insert into tablename values(value1,value2)
+
+show  all data from table---
+select * from tablename
+
+adding new column ******************
+alter table student add column address varchar(20);
+
+
+
+adding value into new column
+syntax:
+update tablename set columnname="value" where coloumnname="value";
+e.g
+update student set address="mumbai" where name="ram";
+
+drop column***********
+
+alter table drop column column_name
+
+alter table student drop column pincode;
+
+change table name***************
+alter table tablename rename to new table name
+alter table student rename to student1;
+
+change column name************
+alter table table_name change column old_column new column data type
+
+alter table student1  change column  address city varchar(20);
+
+
+*********day3*************
+inserting multiple values at same times
+Insert into table_name (column_name1,column_name2)
+    values(v1,v2),(v11,v12)…….(vnn,vn2)
+insert into student1 values(30,"rohan","2022-06-05",45.7,"2021-04-03 02:09:07","vashi"),(40,"pooja","2022-09-08",88.9,"2022-08-12 04:05:06","dehli");
+
+
+Update query****************
+update table_name set column_name=value where condition
+
+update student1 set marks=90.5 where name="sam";
+
+update student1 set marks=65.5,city="thane" where id=30;
+
+delete query******************
+delete from tablename where condition
+delete from student1 where id=40;
+
+truncate table****************
+ truncate table employee;
+
+drop table************
+ drop table employee;
+
+
+constraints***************
+primary key
+1) always unique values
+2) not allow null value
+3) only one primary key for one table
+
+not null**********
+not allow null value
+allow duplicate
+
+unique ********
+allow only unique value 
+allow null vallue
+
+
+create table customer(id int primary key,name varchar(20) not null,address varchar(30) unique));
+
+create all constraints table*********************************
+create table person2(id int primary key,Fname varchar(20) not null,Lname varchar(20) unique, age int check(age>18), city varchar(20) default "thane");
+
+insert into person2 values(400,"pooja","pqrs",44,default);
+
+
+task***********************
+create table book(id pk,name NN,price UQK, author DF,pages >100)
+insert 5 values
+update  2 record (simultanously 2 or 3 values update in row with one condition)
+delete 1 records
+
+******************select query
+select * from student1;
+select  id,name from student1;
+select  id,name,city from student1;
+select  id,name,city from student1 where id>30;
+select  id,name,city from student1 where id>=30;
+select b_date,dtime from student1 where name="pooja";
+select * from student1 where name="pooja";
+select * from student1 where marks>80;
+select * from student1 where name="sam" or name="rohan";
+select * from student1 where name="sam" and name="rohan";
+select * from student1 where name="sam" and id=10;
+select * from student1 where marks>60 or  city="thane";
+select * from student1 where marks>60 and  city="thane";
+
+select * from student1 where name="sam" or name="ram" or name="rohan";
+select * from student1 where name in("sam","ram","rohan");
+
+select * from student1 where name  not in("sam","ram","rohan");
+
+select distinct  name from student1;(retrive quique name)
+
+select * from student1  where id between 20 and 40;
+
+select * from student1 order by marks asc;
+
+select * from student1 order by marks desc;
+
+select * from student1  where marks>80  order by marks asc;
+
+select * from student1  limit 2;
+
+select * from student1 order by id desc limit 2;
+
+
+Like keyword*************
+%--represents zero ,one or more occurance
+_ --represent one ,single chracter
+
+like'a%'---starts with a
+like'%a'---ends with a
+like'%ab%'---finds any value that have 'ab' 
+likn '_a%'-- checkany value that have a at second position
+like 'a_%'find any value that starts with a and atleast 2 chracter length
+
+query****
+select * from student1 where name like'r%';
+
+select * from student1 where name like'%r';
+
+select * from student1 where name like'%m';
+
+select * from student1 where name like'_a%';
+
+select * from student1 where name like'r__%';
+ 
+select * from student1 where name like'r___%';
+
+is null and is not null**********
+ select * from student1 where city is null;
+ select * from student1 where name is null;
+ select * from student1 where name is not null;
+ select * from student1 where city is not null;
+
+
+String*************
+concat ---
+select concat("sql"," ","batch") from dual;
+select concat(id," " ,name)from student1;
+select upper(name) from student1;
+select lower(name) from student1;
+select replace("welcome sql","sql","oracle");
+select replace(name,"rohan","Rohan1") from student1;
+ select substr("welcome sql",1,4);
+select substr(name,1,3)from student1;
+select  length(name) from student1;
+
+Maths****
+select abs(10.5);
+select floor(10.7);
+select ceil(10.5);
+select round(10);
+select pow(10,2);
+select sqrt(4);
+
+Date**********
+
+select curdate();
+select curtime();
+select now();
+select sysdate();
+select date_format("2022-10-02","%Y");
+select date_format("2022-10-02","%y");
+select date_format("2022-10-02","%Y%M%D");
+select date_format("2022-10-02","%M");
+select date_format("2022-10-02","%D");
+select datediff("2022-10-02","2022-10-03");
+
+
+Aggrigate function/group by clause
+
+select city,count(*) as "total_count" from student1 group by city;
+select id,min(salary) from ss group by id;
+select id,max(salary) from ss group by id;
+select id,avg(salary) from ss group by id;
+ select id,sum(salary) from ss group by id;
+
+task----retrive record those having sum(salary)>35000;
+
+
+ 	
+
+select id,min(salary) from ss group by id having min(salary)<35000;
+
+
+
+
+
+Foreign Key**************
+1) it used to create relationship between two or more tables
+2)If you want to make Fk then this key is complusary PK of another table
+3) it contains duplicate values
+4)one table contains multiple FK
+
+create table Demo(d_id int primary key,name varchar(20));
+
+create table Demo1(d_id1 int,location varchar(10),d_id int,primary key(d_id1),foreign key(d_id) references  Demo(d_id));
+
+
+syntax:
+create table tablename(columnname type primary key,columnname2 type,columnname3 type ,foreign key(columnname3) references parenttablename(columnname3)); 
+
+insert into Demo values (10,"ABCD"),(20,"PQRS"),(30,"xyz"),(40,"sdsad");
+
+insert into Demo1 values (101,"pune",10),(200,"thane",40),(300,"mumbai",10),(400,"dehli",30);
+
+create table Demo2(dk_id int,quantity int,d_id int,d_id1 int,primary key(dk_id),
+foreign key(d_id)references Demo(d_id),foreign key(d_id1)references Demo1(d_id1));
+
+insert into Demo2 values(1000,50001,10,101);
+
+
+All join operations***********************
+
+select demo.name,demo1.location from demo inner join demo1 on demo.d_id=demo1.d_id;-------inner join
+select demo.name,demo1.location from demo left join demo1 on demo.d_id=demo1.d_id;----left outer
+select demo.name,demo1.location,demo1.d_id1 from demo right join demo1 on demo.d_id=demo1.d_id;---right outer join 
+select * from demo,demo1;----cross join
+select a.d_id1,a.location,b.d_id from  demo1 as a,demo1 as b where a.d_id=b.d_id ;---self join
+
+join with 3 tables*********
+select demo.name,demo1.location,demo2.quantity from demo inner join demo1 on demo.d_id=demo1.d_id inner join demo2 on demo1.d_id=demo2.d_id;
+select demo.name,demo1.location,demo2.quantity from demo left join demo1 on demo.d_id=demo1.d_id left join demo2 on demo1.d_id=demo2.d_id;
+select demo.name,demo1.location,demo2.quantity from demo right join demo1 on demo.d_id=demo1.d_id right join demo2 on demo1.d_id=demo2.d_id;
+
+SubQuery***********************
+
+The Subquery or Inner query is an SQL query placed inside another SQL query. It is
+embedded in the HAVING or WHERE clause of the SQL statements.
+► Following are the important rules which must be followed by the SQL Subquery:
+► 1. The SQL subqueries can be used with the following statements along with the SQL
+expression operators:
+► SELECT statement,
+► UPDATE statement,
+► INSERT statement, and
+► DELETE statement.
+► 2. The subqueries in SQL are always enclosed in the parenthesis and placed on the right side
+of the SQL operators
+► 3. We cannot use the ORDER BY clause in the subquery. But, we can use the GROUP BY
+clause, which performs the same function as the ORDER BY clause.
+► 4. If the subquery returns more than one record, we have to use the multiple value
+operators before the Subquery.
+► 5. We can use the BETWEEN operator within the subquery but not with the subquery
+
+types:
+signle row subquery---  =,>,<
+multiple row subquery---in ,all ,any
+
+
+create table emp_details(e_id int primary key,e_name varchar(200),e_salary int );
+
+create table dept_details(d_id int primary key,d_name varchar(200),dept_grade varchar(22) );
+
+alter table emp_details add column d_id int;
+
+alter table dept_details add column e_id int;
+
+alter table emp_details add constraint fk_e foreign key(d_id) references dept_details(d_id);
+
+alter table dept_details add constraint fk_d foreign key(e_id) references emp_details(e_id);
+
+
+MariaDB [mydatabase]> select * from emp_details1;
++------+--------+----------+------+
+| e_id | e_name | e_salary | d_id |
++------+--------+----------+------+
+| 1000 | akhil  |     5000 |  400 |
+| 1001 | pooja  |     6000 |  401 |
+| 1002 | ram    |     7000 |  402 |
+| 1003 | sam    |     8000 |  403 |
+| 1004 | akhil  |   400234 | 4005 |
+| 1005 | aniket |   500234 | 4006 |
++------+--------+----------+------+
+
+select * from dept_details1;
++------+--------+------------+------+
+| d_id | d_name | dept_grade | e_id |
++------+--------+------------+------+
+|  400 | IT     | A          | 1001 |
+|  401 | civil  | B          | 1002 |
+|  402 | mech   | C          | 1003 |
+|  404 | elec   | D          | NULL |
++------+--------+------------+------+
+
+Q 1)Write query to find the salary of employee whoes salary is greater than the salary of employee whose id is =1000?
+Ans--select e_id,e_salary from emp_details1 where e_salary>(select e_salary from emp_details1 where e_id=1000);
+
+Q.2) Write a query to find the employee who all are earning the highest salary?
+select * from emp_details where e_salary=(select max(e_salary)from emp_details);
+
+Q.3)Write query to find the employee whose salary is equal to salary of at least one employee in d_id =401?
+select * from emp_details1 where e_salary in (select e_salary where e_id=401);
+
+Q.4)Write query to find the employee whose salary is greater to salary of at least one employee in d_id =401?
+select * from emp_details1 where e_salary >any(select e_salary where e_id=401);
+
+Q.5)Write query to find the employee whose salary is less to salary of at least one employee in d_id =401?
+select * from emp_details1 where e_salary < all(select e_salary where e_id=401);
+
+subquery on multiple tables****************
+ Q.6)Find the department name,dept_grade of those employee whose name containing “pooja” or “sam”.
+select d_name,dept_grade from dept_details1 where e_id in(select e_id from emp_details1 where e_name="pooja" or e_name="sam");
+
+
+Q.7) 2)	Find the department info  of those employee whose  e_salry is greater than 8000.
+
+select d_name,dept_grade from dept_details where e_id in (select e_id from emp_details where e_salary>8000);
+
+Q.8)Increase the salary of employee by 5000 whose dept_grade containing “A”;
+
+update emp_details1 set e_salary=e_salary+5000 where e_id in(select e_id from dept_details1 where dept_grade="A")
+
+Q.9) Write a query to Decrese the salary of  employee by 5000  whose salary is greater than at least on  department  on dept_name=”mech”?
+----update emp_details1 set e_salary=e_salary-5000 where e_id >any(select e_id from dept_details1 where d_name="mech");
+
+Q.10) Write a query to delete the record of employee  whose department grade is A.
+
+delete from emp_details1 where e_id  in(select e_id from dept_details1 where dept_grade="A");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
